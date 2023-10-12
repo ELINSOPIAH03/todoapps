@@ -14,10 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function addTodo() {
     const textTodo = document.getElementById('title').value;
+    const textAuthor = document.getElementById('author').value;
     const timestamp = document.getElementById('date').value;
 
     const generatedID = generateId();
-    const todoObject = generateTodoObject(generatedID, textTodo, timestamp, false);
+    const todoObject = generateTodoObject(generatedID, textTodo,textAuthor, timestamp, false);
     todos.push(todoObject);
 
     document.dispatchEvent(new Event(RENDER_EVENT));
@@ -28,10 +29,11 @@ function generateId() {
     return +new Date();
 }
 
-function generateTodoObject(id, task, timestamp, isCompleted) {
+function generateTodoObject(id, title, author,  timestamp, isCompleted) {
     return {
         id,
-        task,
+        title,
+        author,
         timestamp,
         isCompleted
     }
@@ -56,14 +58,17 @@ document.addEventListener(RENDER_EVENT, function () {
 
 function makeTodo(todoObject) {
     const textTitle = document.createElement('h2');
-    textTitle.innerText = todoObject.task;
+    textTitle.innerText = todoObject.title;
 
+    const author = document.createElement('p');
+    author.innerText = todoObject.author;
+    
     const textTimestamp = document.createElement('p');
     textTimestamp.innerText = todoObject.timestamp;
 
     const textContainer = document.createElement('div');
     textContainer.classList.add('inner');
-    textContainer.append(textTitle, textTimestamp);
+    textContainer.append(textTitle,author, textTimestamp);
 
     const container = document.createElement('div');
     container.classList.add('item', 'shadow');
